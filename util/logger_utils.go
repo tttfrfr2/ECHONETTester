@@ -36,7 +36,11 @@ func InitLogger(filePath string) *zap.Logger {
 		EncodeCaller:   zapcore.ShortCallerEncoder,
 	}
 
-	Check_dir(logFilePath)
+	err := Check_dir(logFilePath)
+	if err != nil {
+		fmt.Printf("Directory check exist error: %s\n", err)
+		return nil
+	}
 	file, err := os.Create(logFilePath)
 	if err != nil {
 		fmt.Printf("Create file error: %s", err)

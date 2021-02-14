@@ -26,5 +26,4 @@ title = "Config"
 [echonetLite]
 ip = ["192.168.100.9"]
 ```
-
 ip: IP addresses you wanna test target device has

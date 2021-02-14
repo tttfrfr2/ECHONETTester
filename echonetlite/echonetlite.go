@@ -113,6 +113,9 @@ func (a *Auditor) NewAuditor(dsts []net.IP) error {
 	t := time.Now()
 	timeStr := fmt.Sprint(t.Year()) + "-" + fmt.Sprint(int(t.Month())) + "-" + fmt.Sprint(t.Day()) + "-" + fmt.Sprint(t.Minute()) + "-" + fmt.Sprint(t.Second())
 	a.logger = util.InitLogger(fmt.Sprintf("%s", filepath.Dir("echonet/"+timeStr+"-"+"echonetlite.log")))
+	if a.logger == nil {
+		return xerrors.Errorf("Create new Auditor failed")
+	}
 
 	a.logger.Info("Create Auditor")
 
@@ -130,6 +133,9 @@ func (a *Auditor) NewAuditor(dsts []net.IP) error {
 	for _, dst := range dsts {
 		var node Node
 		node.logger = util.InitLogger(fmt.Sprintf("%s", filepath.Dir("echonet/"+timeStr+"-"+dst.String()+".log")))
+		if node.logger == nil {
+			return xerrors.Errorf("Create logger failed")
+		}
 		node.ip = dst
 		nodeProfileEOJ = [3]uint8{0x0E, 0xF0, 0x01}
 		node.connRecv = conn
