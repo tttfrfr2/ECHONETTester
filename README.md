@@ -1,4 +1,4 @@
-https://img.shields.io/github/license/tttfrfr2/ECHONETTester
+![MIT](https://img.shields.io/github/license/tttfrfr2/ECHONETTester)
 # ECHONET Lite Test Tool
 This is the test tool for ECHONET Lite vendor. 
 This tool can test below
