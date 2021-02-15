@@ -5,8 +5,8 @@ import (
 	"net"
 	"time"
 
-	"github.com/DaikiYamakawa/VulnApplianceScanner/echonetlite"
-	"github.com/DaikiYamakawa/VulnApplianceScanner/util"
+	"github.com/tttfrfr2/ECHONETTester/echonetlite"
+	"github.com/tttfrfr2/ECHONETTester/util"
 )
 
 var auditor echonetlite.Auditor
