@@ -111,8 +111,8 @@ func (a *Auditor) completerEchonet(d prompt.Document) []prompt.Suggest {
 func (a *Auditor) NewAuditor(dsts []net.IP) error {
 	// file name config
 	t := time.Now()
-	timeStr := fmt.Sprint(t.Year()) + "-" + fmt.Sprint(int(t.Month())) + "-" + fmt.Sprint(t.Day()) + "-" + fmt.Sprint(t.Minute()) + "-" + fmt.Sprint(t.Second())
-	dirAuditorLog, fileAuditorLog := filepath.Split("echonet/" + timeStr + "-" + "echonetlite.log")
+	TimeStr = fmt.Sprint(t.Year()) + "-" + fmt.Sprint(int(t.Month())) + "-" + fmt.Sprint(t.Day()) + "-" + fmt.Sprint(t.Minute()) + "-" + fmt.Sprint(t.Second())
+	dirAuditorLog, fileAuditorLog := filepath.Split("echonet/" + TimeStr + "-" + "echonetlite.log")
 	a.logger = util.InitLogger(dirAuditorLog + fileAuditorLog)
 	if a.logger == nil {
 		return xerrors.Errorf("Create new Auditor failed")
@@ -134,7 +134,7 @@ func (a *Auditor) NewAuditor(dsts []net.IP) error {
 	for _, dst := range dsts {
 		var node Node
 
-		dirNodeLog, fileNodeLog := filepath.Split("echonet/" + timeStr + "-" + dst.String() + ".log")
+		dirNodeLog, fileNodeLog := filepath.Split("echonet/" + TimeStr + "-" + dst.String() + ".log")
 		node.logger = util.InitLogger(dirNodeLog + fileNodeLog)
 		if node.logger == nil {
 			return xerrors.Errorf("Create logger failed")
