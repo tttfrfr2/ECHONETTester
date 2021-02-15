@@ -280,10 +280,7 @@ func (node *Node) parseData(json []byte, rel string) ([]interface{}, error) {
 		//type time or date-time
 		case typeProp == "time" || typeProp == "date-time":
 			var elData DateTime
-			elData.size, err = jsonparser.GetInt(json, "size")
-			if err != nil {
-				node.logger.Warn("Parse JSON Warning in time or date-time")
-			}
+			elData.size, _ = jsonparser.GetInt(json, "size")
 			retData = append(retData, elData)
 			return retData, err
 
@@ -377,10 +374,6 @@ func (node *Node) parseMetaData(json []byte, epc string) (Property, error) {
 		return retProp, xerrors.Errorf("Failed to getinfo \"INF\" of json at %s:%w", epc, err)
 	}
 
-	retProp.Note, err = jsonparser.GetString(json, "note", "en")
-	if err != nil {
-		node.logger.Warn(fmt.Sprintf("Failed to getinfo \"note\" of json at %s: %s", epc, err))
-	}
-
+	retProp.Note, _ = jsonparser.GetString(json, "note", "en")
 	return retProp, nil
 }
