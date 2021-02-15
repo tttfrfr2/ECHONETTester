@@ -37,9 +37,11 @@ Output log and result under **log** directory.
 Format is two patterns...
 
 - (date)-echonetlite.log
+
 	Outputed log related to first process
 
 - (date)-(ipaddress).log
+
 	Outputed log per target devices. Rerated to send and receive packet, validation of commucation flow, property data and ECHONET Lite frame format, and so on.
 
 # Config
