@@ -15,9 +15,10 @@ Communicate communicate a target device with ECHONET Lite. There are 2 modes, No
 
 # Usage
 You can launch this tool like below...
-				go run main.go
 
 ![demo_first](./demo_first.png)
+
+Fistly, you have to ECHONET Lite appendix version, target device apply for.
 
 There are command:
 - OPC Fuzz
