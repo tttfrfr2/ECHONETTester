@@ -58,4 +58,4 @@ ip = ["192.168.100.9"]
 ip: IP addresses you wanna test target device has
 
 # Reference
-This tool apply for [ECHONET Lite](https://echonet.jp/spec_v113_lite_en/) and [class specification](https://echonet.jp/spec_object_rm_en/)
+This tool apply for [ECHONET Lite](https://echonet.jp/spec_v113_lite_en/) and [class specification](https://echonet.jp/wp/wp-content/uploads/pdf/General/Standard/Release/Release_M_en/Appendix_Release_M_E.pdf)
