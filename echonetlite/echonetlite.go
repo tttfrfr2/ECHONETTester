@@ -181,10 +181,6 @@ func (a *Auditor) NewAuditor(dsts []net.IP) error {
 			a.logger.Error("Couldn't receive packet from Node Profile Object", zap.String("IPaddr", node.ip.String()))
 			continue
 		}
-		err = node.Check(&payload, &recv)
-		if err != nil {
-			a.logger.Error("Receive packet invalid", zap.String("IPaddr", node.ip.String()))
-		}
 
 		// instList: list of instance CODE
 		instList := make([][3]uint8, int(recv.VarGroups[0].EDT[0])+1, int(recv.VarGroups[0].EDT[0])+1)
