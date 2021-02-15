@@ -22,10 +22,13 @@ Fistly, you have to ECHONET Lite appendix version, target device apply for.
 
 There are command:
 - OPC Fuzz
+
 	Start to OPC Fuzz
 - Communicate
+
 	Start to communicate target device
 - exit
+
 	Exit tool
 
 # LOG
