@@ -111,8 +111,12 @@ func (a *Auditor) completerEchonet(d prompt.Document) []prompt.Suggest {
 func (a *Auditor) NewAuditor(dsts []net.IP) error {
 	// file name config
 	t := time.Now()
-	timeStr := fmt.Sprint(t.Year()) + "-" + fmt.Sprint(int(t.Month())) + "-" + fmt.Sprint(t.Day()) + "-" + fmt.Sprint(t.Minute()) + "-" + fmt.Sprint(t.Second())
-	a.logger = util.InitLogger(fmt.Sprintf("%s", filepath.Dir("echonet/"+timeStr+"-"+"echonetlite.log")))
+	TimeStr = fmt.Sprint(t.Year()) + "-" + fmt.Sprint(int(t.Month())) + "-" + fmt.Sprint(t.Day()) + "-" + fmt.Sprint(t.Minute()) + "-" + fmt.Sprint(t.Second())
+	dirAuditorLog, fileAuditorLog := filepath.Split("echonet/" + TimeStr + "-" + "echonetlite.log")
+	a.logger = util.InitLogger(dirAuditorLog + fileAuditorLog)
+	if a.logger == nil {
+		return xerrors.Errorf("Create new Auditor failed")
+	}
 
 	a.logger.Info("Create Auditor")
 
@@ -129,7 +133,12 @@ func (a *Auditor) NewAuditor(dsts []net.IP) error {
 	// set up Node per dstIP
 	for _, dst := range dsts {
 		var node Node
-		node.logger = util.InitLogger(fmt.Sprintf("%s", filepath.Dir("echonet/"+timeStr+"-"+dst.String()+".log")))
+
+		dirNodeLog, fileNodeLog := filepath.Split("echonet/" + TimeStr + "-" + dst.String() + ".log")
+		node.logger = util.InitLogger(dirNodeLog + fileNodeLog)
+		if node.logger == nil {
+			return xerrors.Errorf("Create logger failed")
+		}
 		node.ip = dst
 		nodeProfileEOJ = [3]uint8{0x0E, 0xF0, 0x01}
 		node.connRecv = conn
@@ -193,9 +202,10 @@ func (a *Auditor) NewAuditor(dsts []net.IP) error {
 		release := nextLine()
 
 		// Cleate instance
-		json, err := ioutil.ReadFile(filepath.Dir("echonetlite/class.json"))
+		dirJson, fileJson := filepath.Split("echonetlite/class.json")
+		json, err := ioutil.ReadFile(dirJson + fileJson)
 		if err != nil {
-			return xerrors.Errorf(fmt.Sprintf("There are not %s", filepath.Dir("echonetlite/class.json")))
+			return xerrors.Errorf(fmt.Sprintf("There are not %s", dirJson+fileJson))
 		}
 		for _, instCODE := range instList {
 			instance, err := node.CreateObject(instCODE, release, json)
@@ -488,7 +498,7 @@ func (node *Node) CreateObject(objectCode [3]uint8, release string, json []byte)
 	}
 
 	// If retInstance is not the Instance which is nodeProfileObject(class group code is 0x0E), SuperObject(class group code is 0x00) or UserDefinedObject(class group code is 0xF0),
-	// retInstance is that instantinated class which is child of SuperObject.
+	// retInstance is the child of SuperObject.
 	// That is why create and merge object SuperObject.
 	if !(retInstance.ClassCode[0] == 0x0E || retInstance.ClassCode[0] == 0x0F) && !(retInstance.ClassCode[1] == 0x00 && retInstance.ClassCode[0] == 0x00) {
 		recv, err := node.CreateObject([3]uint8{0x00, 0x00, 0x00}, release, json)

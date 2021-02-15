@@ -6,3 +6,4 @@ var nodeProfileEOJ [3]uint8
 var timeoutFuzz int
 var rel string
 var jsonAll []byte
+var TimeStr string

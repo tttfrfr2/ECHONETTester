@@ -3,6 +3,7 @@ package util
 import (
 	"encoding/pem"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"golang.org/x/xerrors"
@@ -10,7 +11,10 @@ import (
 
 func WriteByteFile(path string, data []byte, isAppend bool) (err error) {
 	var file *os.File
-	Check_dir(path)
+	err = Check_dir(path)
+	if err != nil {
+		return xerrors.Errorf("Directory check exist error: %w", err)
+	}
 	if isAppend {
 		file, err = os.OpenFile(path, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666)
 		if err != nil {
@@ -31,9 +35,12 @@ func WriteByteFile(path string, data []byte, isAppend bool) (err error) {
 	return nil
 }
 
-func WritePEMFile(path string, block *pem.Block, perm os.FileMode) (err error) {
+func WritePEMFile(path string, block *pem.Block, perm os.FileMode) error {
 	var file *os.File
-	Check_dir(path)
+	err := Check_dir(path)
+	if err != nil {
+		return xerrors.Errorf("Directory check exist error: %w", err)
+	}
 	file, err = os.OpenFile(path, os.O_WRONLY|os.O_CREATE, perm)
 	if err != nil {
 		return xerrors.Errorf("Failed to open file: %v, path: %s", err, path)
@@ -46,13 +53,18 @@ func WritePEMFile(path string, block *pem.Block, perm os.FileMode) (err error) {
 	return nil
 }
 
-func Check_dir(path string) {
+func Check_dir(path string) error {
 	dirs := strings.Split(path, "/")
 	path = ""
 	for i := 0; i < len(dirs)-1; i++ {
 		path = path + dirs[i] + "/"
-		if _, err := os.Stat(path); os.IsNotExist(err) {
-			os.Mkdir(path, 0777)
+		dirPath, filePath := filepath.Split(path)
+		if _, err := os.Stat(dirPath + filePath); os.IsNotExist(err) {
+			err := os.Mkdir(dirPath+filePath, 0777)
+			if err != nil {
+				return xerrors.Errorf("Create directory failed: %w", err)
+			}
 		}
 	}
+	return nil
 }
