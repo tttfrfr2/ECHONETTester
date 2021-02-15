@@ -10,7 +10,8 @@ import (
 )
 
 func InitLogger(filePath string) *zap.Logger {
-	logFilePath := filepath.Dir("log/" + filePath)
+	dirLogFile, fileLogFile := filepath.Split("log/" + filePath)
+	logFilePath := dirLogFile + fileLogFile
 	consoleConfig := zapcore.EncoderConfig{
 		TimeKey:        "Time",
 		LevelKey:       "Level",

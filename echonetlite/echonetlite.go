@@ -112,7 +112,8 @@ func (a *Auditor) NewAuditor(dsts []net.IP) error {
 	// file name config
 	t := time.Now()
 	timeStr := fmt.Sprint(t.Year()) + "-" + fmt.Sprint(int(t.Month())) + "-" + fmt.Sprint(t.Day()) + "-" + fmt.Sprint(t.Minute()) + "-" + fmt.Sprint(t.Second())
-	a.logger = util.InitLogger(fmt.Sprintf("%s", filepath.Dir("echonet/"+timeStr+"-"+"echonetlite.log")))
+	dirAuditorLog, fileAuditorLog := filepath.Split("echonet/" + timeStr + "-" + "echonetlite.log")
+	a.logger = util.InitLogger(dirAuditorLog + fileAuditorLog)
 	if a.logger == nil {
 		return xerrors.Errorf("Create new Auditor failed")
 	}
@@ -132,7 +133,9 @@ func (a *Auditor) NewAuditor(dsts []net.IP) error {
 	// set up Node per dstIP
 	for _, dst := range dsts {
 		var node Node
-		node.logger = util.InitLogger(fmt.Sprintf("%s", filepath.Dir("echonet/"+timeStr+"-"+dst.String()+".log")))
+
+		dirNodeLog, fileNodeLog := filepath.Split("echonet/" + timeStr + "-" + dst.String() + ".log")
+		node.logger = util.InitLogger(dirNodeLog + fileNodeLog)
 		if node.logger == nil {
 			return xerrors.Errorf("Create logger failed")
 		}
@@ -199,9 +202,10 @@ func (a *Auditor) NewAuditor(dsts []net.IP) error {
 		release := nextLine()
 
 		// Cleate instance
-		json, err := ioutil.ReadFile(filepath.Dir("echonetlite/class.json"))
+		dirJson, fileJson := filepath.Split("echonetlite/class.json")
+		json, err := ioutil.ReadFile(dirJson + fileJson)
 		if err != nil {
-			return xerrors.Errorf(fmt.Sprintf("There are not %s", filepath.Dir("echonetlite/class.json")))
+			return xerrors.Errorf(fmt.Sprintf("There are not %s", dirJson+fileJson))
 		}
 		for _, instCODE := range instList {
 			instance, err := node.CreateObject(instCODE, release, json)

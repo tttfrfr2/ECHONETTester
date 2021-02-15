@@ -1,0 +1,39 @@
+{"Level":"ERROR","Time":"2021-02-15T12:05:01.599+0900","Msg":"Instance Code incorresponded"}
+{"Level":"INFO","Time":"2021-02-15T12:05:02.756+0900","Msg":"Create object","CLASS":"0EF001"}
+{"Level":"WARN","Time":"2021-02-15T12:05:02.761+0900","Msg":"Failed to getinfo \"note\" of json at 0x80: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:02.761+0900","Msg":"Failed to getinfo \"note\" of json at 0x88: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:02.762+0900","Msg":"Failed to getinfo \"note\" of json at 0x89: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:02.762+0900","Msg":"Failed to getinfo \"note\" of json at 0x8B: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:02.762+0900","Msg":"Failed to getinfo \"note\" of json at 0x8C: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:02.762+0900","Msg":"Failed to getinfo \"note\" of json at 0x8D: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:02.762+0900","Msg":"Failed to getinfo \"note\" of json at 0x8E: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:02.763+0900","Msg":"Failed to getinfo \"note\" of json at 0xBF: Key path not found"}
+{"Level":"INFO","Time":"2021-02-15T12:05:03.290+0900","Msg":"Create object","CLASS":"013501"}
+{"Level":"WARN","Time":"2021-02-15T12:05:03.297+0900","Msg":"Failed to getinfo \"note\" of json at 0xA0: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:03.298+0900","Msg":"Failed to getinfo \"note\" of json at 0xC0: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:03.298+0900","Msg":"Failed to getinfo \"note\" of json at 0xC1: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:03.298+0900","Msg":"Failed to getinfo \"note\" of json at 0xC2: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:03.298+0900","Msg":"Failed to getinfo \"note\" of json at 0xE1: Key path not found"}
+{"Level":"INFO","Time":"2021-02-15T12:05:03.298+0900","Msg":"Create object","CLASS":"000000"}
+{"Level":"WARN","Time":"2021-02-15T12:05:03.303+0900","Msg":"Failed to getinfo \"note\" of json at 0x80: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:03.304+0900","Msg":"Failed to getinfo \"note\" of json at 0x84: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:03.305+0900","Msg":"Failed to getinfo \"note\" of json at 0x85: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:03.305+0900","Msg":"Failed to getinfo \"note\" of json at 0x86: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:03.305+0900","Msg":"Failed to getinfo \"note\" of json at 0x87: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:03.305+0900","Msg":"Failed to getinfo \"note\" of json at 0x88: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:03.305+0900","Msg":"Failed to getinfo \"note\" of json at 0x89: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:03.306+0900","Msg":"Failed to getinfo \"note\" of json at 0x8A: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:03.306+0900","Msg":"Failed to getinfo \"note\" of json at 0x8B: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:03.306+0900","Msg":"Failed to getinfo \"note\" of json at 0x8C: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:03.306+0900","Msg":"Failed to getinfo \"note\" of json at 0x8D: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:03.306+0900","Msg":"Failed to getinfo \"note\" of json at 0x8E: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:03.307+0900","Msg":"Failed to getinfo \"note\" of json at 0x8F: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:03.307+0900","Msg":"Failed to getinfo \"note\" of json at 0x93: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:03.307+0900","Msg":"Failed to getinfo \"note\" of json at 0x97: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:03.307+0900","Msg":"Failed to getinfo \"note\" of json at 0x98: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:03.307+0900","Msg":"Failed to getinfo \"note\" of json at 0x99: Key path not found"}
+{"Level":"WARN","Time":"2021-02-15T12:05:03.307+0900","Msg":"Failed to getinfo \"note\" of json at 0x9A: Key path not found"}
+{"Level":"INFO","Time":"2021-02-15T12:05:12.834+0900","Msg":"Start to communicate","IPaddr":"192.168.100.4"}
+{"Level":"INFO","Time":"2021-02-15T12:05:21.731+0900","Msg":"Send packet","payload":"{EHD1:16 EHD2:129 TID:33445 SEOJ:[14 240 1] DEOJ:[14 240 1] ESV:98 OPC:1 VarGroups:[{EPC:128 PDC:0 EDT:[]}] OPCG:0 VarGroupsG:[]}"}
+{"Level":"INFO","Time":"2021-02-15T12:05:21.771+0900","Msg":"receive packet","payload":"{EHD1:16 EHD2:129 TID:33445 SEOJ:[14 240 1] DEOJ:[14 240 1] ESV:114 OPC:1 VarGroups:[{EPC:128 PDC:1 EDT:[48]}] OPCG:0 VarGroupsG:[]}"}
+{"Level":"INFO","Time":"2021-02-15T12:05:23.859+0900","Msg":"Finished to communicate","IPaddr":"192.168.100.4"}

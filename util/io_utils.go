@@ -58,9 +58,12 @@ func Check_dir(path string) error {
 	path = ""
 	for i := 0; i < len(dirs)-1; i++ {
 		path = path + dirs[i] + "/"
-		if _, err := os.Stat(filepath.Dir(path)); os.IsNotExist(err) {
-			err := os.Mkdir(filepath.Dir(path), 0777)
-			return xerrors.Errorf("Create directory failed: %w", err)
+		dirPath, filePath := filepath.Split(path)
+		if _, err := os.Stat(dirPath + filePath); os.IsNotExist(err) {
+			err := os.Mkdir(dirPath+filePath, 0777)
+			if err != nil {
+				return xerrors.Errorf("Create directory failed: %w", err)
+			}
 		}
 	}
 	return nil
