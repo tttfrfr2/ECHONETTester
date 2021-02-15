@@ -532,7 +532,7 @@ func parsePropMap(propertyMapEDT []uint8) ([]uint8, error) {
 		}
 	} else {
 		// Create Property map if the number of properties is over 15
-		// Specification of property map is appendix 1 of "https://echonet.jp/wp/wp-content/uploads/pdf/General/Standard/Release/Release_N_jp/Appendix_Release_N.pdf"
+		// Specification of property map is appendix 1 of "https://echonet.jp/wp/wp-content/uploads/pdf/General/Standard/Release/Release_M_en/Appendix_Release_M_E.pdf"
 		for underDigit := 1; underDigit < 17; underDigit++ {
 			for upperDigit := 0; upperDigit < 8; upperDigit++ {
 				//
