@@ -498,7 +498,7 @@ func (node *Node) CreateObject(objectCode [3]uint8, release string, json []byte)
 	}
 
 	// If retInstance is not the Instance which is nodeProfileObject(class group code is 0x0E), SuperObject(class group code is 0x00) or UserDefinedObject(class group code is 0xF0),
-	// retInstance is that instantinated class which is child of SuperObject.
+	// retInstance is the child of SuperObject.
 	// That is why create and merge object SuperObject.
 	if !(retInstance.ClassCode[0] == 0x0E || retInstance.ClassCode[0] == 0x0F) && !(retInstance.ClassCode[1] == 0x00 && retInstance.ClassCode[0] == 0x00) {
 		recv, err := node.CreateObject([3]uint8{0x00, 0x00, 0x00}, release, json)
