@@ -14,9 +14,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/DaikiYamakawa/VulnApplianceScanner/util"
 	"github.com/buger/jsonparser"
 	"github.com/c-bata/go-prompt"
+	"github.com/tttfrfr2/ECHONETTester/util"
 	"go.uber.org/zap"
 	"golang.org/x/xerrors"
 )
