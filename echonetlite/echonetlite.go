@@ -30,7 +30,7 @@ func nextLine() string {
 
 // Print all IP address of Nodes
 func chooseNode(a *Auditor) *Node {
-	fmt.Printf("(ECHONET Lite:Information)> Node address is...\n")
+	fmt.Printf("(ECHONET Lite:Information)> Node addresses are...\n")
 	fmt.Printf("   -------------- IP address --------------\n")
 	for i, node := range a.DistNodes {
 		fmt.Printf("   > index[%d]    IP address:%s\n", i+1, node.ip.String())
@@ -106,31 +106,16 @@ func (a *Auditor) completerEchonet(d prompt.Document) []prompt.Suggest {
 	return prompt.FilterHasPrefix(s, d.GetWordBeforeCursor(), true)
 }
 
-// NewAuditor create Auditor, test target devices with ECHONET Lite
-// Configure logger and Node par dst, argument 1
-func (a *Auditor) NewAuditor(dsts []net.IP) error {
-	// file name config
-	t := time.Now()
-	TimeStr = fmt.Sprint(t.Year()) + "-" + fmt.Sprint(int(t.Month())) + "-" + fmt.Sprint(t.Day()) + "-" + fmt.Sprint(t.Minute()) + "-" + fmt.Sprint(t.Second())
-	dirAuditorLog, fileAuditorLog := filepath.Split("echonet/" + TimeStr + "-" + "echonetlite.log")
-	a.logger = util.InitLogger(dirAuditorLog + fileAuditorLog)
-	if a.logger == nil {
-		return xerrors.Errorf("Create new Auditor failed")
-	}
-
-	a.logger.Info("Create Auditor")
-
+func (a *Auditor) AddDistNodes(dsts []net.IP) error {
 	// receive connection config
 	udpAddr := &net.UDPAddr{
 		IP:   net.ParseIP("localhost"),
 		Port: 3610,
 	}
-	conn, err := net.ListenUDP("udp", udpAddr)
+	connectionReciveECHONET, err := net.ListenUDP("udp", udpAddr)
 	if err != nil {
 		a.logger.Error("Create Receive UDP Sokcet Failed", zap.String("IPaddr", udpAddr.IP.String()), zap.String("Port", fmt.Sprintf("%d", udpAddr.Port)), zap.String("message", fmt.Sprintf("%s", err)))
 	}
-
-	// set up Node per dstIP
 	for _, dst := range dsts {
 		var node Node
 
@@ -141,14 +126,14 @@ func (a *Auditor) NewAuditor(dsts []net.IP) error {
 		}
 		node.ip = dst
 		nodeProfileEOJ = [3]uint8{0x0E, 0xF0, 0x01}
-		node.connRecv = conn
+		node.connRecv = connectionReciveECHONET
 
-		conn, err := net.Dial("udp4", fmt.Sprintf("%s:3610", dst.String()))
+		connectionSendECHONET, err := net.Dial("udp4", fmt.Sprintf("%s:3610", dst.String()))
 		if err != nil {
 			a.logger.Error("Create Send Connection Failed", zap.String("IPaddr", dst.String()))
 			return xerrors.Errorf("Couldn't connect to target device %w", err)
 		}
-		node.connSend = conn
+		node.connSend = connectionSendECHONET
 
 		// Get Instance list of node
 		payload := FrameFormat{
@@ -167,18 +152,21 @@ func (a *Auditor) NewAuditor(dsts []net.IP) error {
 			},
 		}
 		go func() {
-			SendEchonet(payload, node.connSend)
-		}()
-		if err != nil {
-			payload.DEOJ = [3]uint8{0x0E, 0xF0, 0x02}
-			err = SendEchonet(payload, node.connSend)
+			err := SendEchonet(payload, node.connSend)
 			if err != nil {
-				a.logger.Error("Sent packet failed")
+				payload.DEOJ = [3]uint8{0x0E, 0xF0, 0x02}
+				err = SendEchonet(payload, node.connSend)
+				if err != nil {
+					a.logger.Error("Sent packet failed")
+				}
 			}
-		}
+		}()
 		recv, err := node.RecvEchonet()
 		if err != nil {
 			a.logger.Error("Couldn't receive packet from Node Profile Object", zap.String("IPaddr", node.ip.String()))
+			continue
+		} else if recv.ESV&0x70 != 0x70 {
+			a.logger.Error("Invalid data flow", zap.String("IPaddr", node.ip.String()))
 			continue
 		}
 
@@ -255,6 +243,28 @@ func (a *Auditor) NewAuditor(dsts []net.IP) error {
 		}
 		a.DistNodes = append(a.DistNodes, node)
 	}
+	return nil
+}
+
+// NewAuditor create Auditor, test target devices with ECHONET Lite
+// Configure logger and Node par dst, argument 1
+func (a *Auditor) NewAuditor(dsts []net.IP) error {
+	// file name config
+	t := time.Now()
+	TimeStr = fmt.Sprint(t.Year()) + "-" + fmt.Sprint(int(t.Month())) + "-" + fmt.Sprint(t.Day()) + "-" + fmt.Sprint(t.Minute()) + "-" + fmt.Sprint(t.Second())
+	dirAuditorLog, fileAuditorLog := filepath.Split("echonet/" + TimeStr + "-" + "echonetlite.log")
+	a.logger = util.InitLogger(dirAuditorLog + fileAuditorLog)
+	if a.logger == nil {
+		return xerrors.Errorf("Create new Auditor failed")
+	}
+
+	a.logger.Info("Create Auditor")
+
+	err := a.AddDistNodes(dsts)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -377,7 +387,9 @@ func (a *Node) RecvEchonet() (FrameFormat, error) {
 
 	recv, err := parser(buffer[:length])
 	if err != nil {
-		return retFrame, xerrors.Errorf("Failed to parse recieved ECHONET Lite packet: %w", err)
+		return *recv, xerrors.Errorf("Failed to parse recieved ECHONET Lite packet: %w", err)
+	} else if recv.EHD1 != 0x10 || recv.EHD2&0x80 != 0x80 {
+		return *recv, xerrors.Errorf("Target device doesn't have ECHONET Lite Service: %w", err)
 	}
 
 	return *recv, nil
