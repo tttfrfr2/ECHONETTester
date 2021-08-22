@@ -1,17 +1,35 @@
-# FROM <イメージ名>:<バージョンタグ>
-# このイメージを元に使って
-FROM ubuntu:16.04
+FROM golang:alpine as builder
 
-# pip pipenv INSTALL
-WORKDIR /root
-#RUN curl -kL https://bootstrap.pypa.io/pip/3.5/get-pip.py | python3
-RUN bash
+RUN apk add --no-cache \
+        git \
+        make \
+        gcc \
+        musl-dev
 
-# SSH config
-RUN mkdir ~/.ssh
-RUN chmod 700 ~/.ssh
-RUN touch ~/.ssh/authorized_keys
-RUN chmod 600 ~/.ssh/authorized_keys
+ENV REPOSITORY github.com/future-architect/vuls
+COPY . $GOPATH/src/$REPOSITORY
+RUN cd $GOPATH/src/$REPOSITORY && make install
 
-CMD ["/bin/bash"]
 
+FROM alpine:3.13
+
+LABEL maintainer hikachan sadayuki-matsuno
+
+ENV LOGDIR /var/log/vuls
+ENV WORKDIR /vuls
+
+RUN apk add --no-cache \
+        openssh-client \
+        ca-certificates \
+        git \
+        nmap \
+    && mkdir -p $WORKDIR $LOGDIR
+
+COPY --from=builder /go/bin/vuls /usr/local/bin/
+
+VOLUME ["$WORKDIR", "$LOGDIR"]
+WORKDIR $WORKDIR
+ENV PWD $WORKDIR
+
+ENTRYPOINT ["vuls"]
+CMD ["--help"]
