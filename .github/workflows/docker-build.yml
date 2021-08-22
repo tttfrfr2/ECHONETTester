@@ -26,16 +26,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Docker meta 
-        id: meta
-        uses: docker/metadata-action@v3
-        with:
-          images: |
-            tttfrfr2/echonettester
-          tags: |
-            latest
-            type=ref,event=tag
-
       - name: Set output
         id: vars
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
@@ -45,7 +35,6 @@ jobs:
         with:
           push: true
           tags: |
-            tttfrfr2/test:${{ steps.vars.outputs.tag }}
-            ${{ steps.meta.outputs.tags }}
+            tttfrfr2/echonettester:${{ steps.vars.outputs.tag }}
           secrets: |
             "github_token=${{ secrets.GITHUB_TOKEN }}"
