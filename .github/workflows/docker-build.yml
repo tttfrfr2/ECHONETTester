@@ -42,6 +42,6 @@ jobs:
           push: true
           tags: |
             tttfrfr2/test:latest
-            ${{ steps.meta.outputs.tags }}
+            tttfrfr2/testing:${{ steps.meta.outputs.tags }}
           secrets: |
             "github_token=${{ secrets.GITHUB_TOKEN }}"
