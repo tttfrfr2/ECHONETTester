@@ -31,7 +31,7 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: |
-            tttfrfr2/echonettester
+            future-architect/vuls
           tags: |
             latest
             type=ref,event=tag
