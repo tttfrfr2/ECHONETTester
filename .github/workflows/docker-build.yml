@@ -25,7 +25,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: tttfrfr2/echonettester
+          images: tttfrfr2/testing
           tags: |
             type=ref,event=tag
 
