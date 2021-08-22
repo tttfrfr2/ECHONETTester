@@ -30,6 +30,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: tttfrfr2/master_research:latest
+          tags: tttfrfr2/ECHONETTester:latest
           secrets: |
             "github_token=${{ secrets.GITHUB_TOKEN }}"
