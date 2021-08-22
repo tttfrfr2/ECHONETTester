@@ -26,18 +26,15 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-     - name: Docker meta
-       id: meta
-       uses: docker/metadata-action@v3
-       with:
-         images: |
-           tttfrfr2/echonettester
-         tags: |
-           latest
-           type=ref,event=tag
-         flavor: |
-           latest=${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-
+      - name: Docker meta 
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: |
+            tttfrfr2/echonettester
+          tags: |
+            latest
+            type=ref,event=tag
 
       - name: Build and push
         uses: docker/build-push-action@v2
