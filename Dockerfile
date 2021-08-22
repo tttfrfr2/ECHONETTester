@@ -1,6 +1,35 @@
-# FROM <イメージ名>:<バージョンタグ>
-# このイメージを元に使って
-FROM ubuntu:16.04
+FROM golang:alpine as builder
 
-# イメージの中にアプリ用ディレクトリを作成
-RUN echo "Hello, world!"
+RUN apk add --no-cache \
+        git \
+        make \
+        gcc \
+        musl-dev
+
+ENV REPOSITORY github.com/future-architect/vuls
+COPY . $GOPATH/src/$REPOSITORY
+RUN cd $GOPATH/src/$REPOSITORY && make install
+
+
+FROM alpine:3.13
+
+LABEL maintainer hikachan sadayuki-matsuno
+
+ENV LOGDIR /var/log/vuls
+ENV WORKDIR /vuls
+
+RUN apk add --no-cache \
+        openssh-client \
+        ca-certificates \
+        git \
+        nmap \
+    && mkdir -p $WORKDIR $LOGDIR
+
+COPY --from=builder /go/bin/vuls /usr/local/bin/
+
+VOLUME ["$WORKDIR", "$LOGDIR"]
+WORKDIR $WORKDIR
+ENV PWD $WORKDIR
+
+ENTRYPOINT ["vuls"]
+CMD ["--help"]
