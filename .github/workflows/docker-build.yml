@@ -36,20 +36,16 @@ jobs:
             latest
             type=ref,event=tag
 
-      - name: Extract tag name
-        id: tag
-        uses: actions/github-script@0.2.0
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            return context.payload.ref.replace(/\/refs\/tags\//, '');
+      - name: Set output
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
 
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
           push: true
           tags: |
-            tttfrfr2/test:${{ steps.tag.outputs.result }}
+            tttfrfr2/test:${{ steps.vars.outputs.tag }}
             ${{ steps.meta.outputs.tags }}
           secrets: |
             "github_token=${{ secrets.GITHUB_TOKEN }}"
