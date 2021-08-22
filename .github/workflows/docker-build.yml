@@ -31,7 +31,7 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: |
-            future-architect/vuls
+            tttfrfr2/echonettester
           tags: |
             latest
             type=ref,event=tag
@@ -40,6 +40,8 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: |
+            tttfrfr2/test:latest
+            ${{ steps.meta.outputs.tags }}
           secrets: |
             "github_token=${{ secrets.GITHUB_TOKEN }}"
