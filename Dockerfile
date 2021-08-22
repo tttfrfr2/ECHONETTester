@@ -3,4 +3,4 @@
 FROM ubuntu:16.04
 
 # イメージの中にアプリ用ディレクトリを作成
-RUN export="AAA"
+RUN echo "Hello, world!"
