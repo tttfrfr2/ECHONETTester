@@ -12,7 +12,6 @@ RUN mkdir ~/.ssh
 RUN chmod 700 ~/.ssh
 RUN touch ~/.ssh/authorized_keys
 RUN chmod 600 ~/.ssh/authorized_keys
-RUN rm /etc/ssh/ssh_host_*key*
 
 CMD ["/bin/bash"]
 
