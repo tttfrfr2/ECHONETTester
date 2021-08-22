@@ -40,7 +40,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ${{ github.meta.outputs.tags }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}
           secrets: |
             "github_token=${{ secrets.GITHUB_TOKEN }}"
-          labels: ${{ github.meta.outputs.labels }}
