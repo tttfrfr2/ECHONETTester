@@ -44,17 +44,14 @@ RUN dpkg-reconfigure openssh-server
 # WORKDIR /opt/myapp
 
 # Dockerfileのディレクトリの中身をイメージの中のWORKDIRにコピー 
-COPY ./sshd_config /etc/ssh/sshd_config
-COPY ./id_rsa.pub /root/id_rsa.pub
-RUN cat /root/id_rsa.pub >> /root/.ssh/authorized_keys
+#COPY ./sshd_config /etc/ssh/sshd_config
+#COPY ./id_rsa.pub /root/id_rsa.pub
+#RUN cat /root/id_rsa.pub >> /root/.ssh/authorized_keys
 #RUN /etc/init.d/ssh restart
 #
 ## コンテナのポート8000をホストに開示
 ## EXPOSE 8000
 #
-## イメージの起動の時実行されるコマンド
-#CMD ["/bin/bash"]
 
-#ENTRYPOINT python3 get-pip.py && pip install pipenv && pipenv install numpy && pipenv install cryptography && pipenv install cryptography==3.0.0
-ENTRYPOINT /etc/init.d/ssh restart && /bin/bash
+CMD ["/bin/bash"]
 
