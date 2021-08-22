@@ -21,6 +21,7 @@ jobs:
           images: |
             tttfrfr2/echonettester
           tags: |
+            latest
             type=ref,event=tag
           flavor: |
             latest=${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
