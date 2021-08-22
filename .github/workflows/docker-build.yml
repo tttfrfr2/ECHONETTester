@@ -51,6 +51,6 @@ jobs:
           tags: |
             #tttfrfr2/echonettester:${{ steps.vars.outputs.tag }}
             tttfrfr2/echonettester:latest
-            ${{ step.meta.outputs.tags }}
+            ${{ steps.meta.outputs.tags }}
           secrets: |
             "github_token=${{ secrets.GITHUB_TOKEN }}"
