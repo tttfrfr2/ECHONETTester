@@ -19,7 +19,7 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: |
-            itzg/minecraft-server
+            tttfrfr2/echonettester
           tags: |
             type=ref,event=branch
             type=ref,event=tag
