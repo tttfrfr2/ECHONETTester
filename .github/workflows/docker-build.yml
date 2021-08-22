@@ -31,7 +31,7 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: |
-            tttfrfr2/echonettester
+            tttfrfr/echonettester
           tags: |
             latest
             type=ref,event=tag
@@ -42,6 +42,6 @@ jobs:
           push: true
           tags: |
             tttfrfr2/test:latest
-            tttfrfr2/testing:${{ steps.meta.outputs.tags }}
+            ${{ steps.meta.outputs.tags }}
           secrets: |
             "github_token=${{ secrets.GITHUB_TOKEN }}"
